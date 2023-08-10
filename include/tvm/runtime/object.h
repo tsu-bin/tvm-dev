@@ -255,6 +255,11 @@ class TVM_DLL Object {
     return *this;
   }
 
+  std::string x() const;
+  std::string xx() const;
+  std::string z() const;
+  std::string zz() const;
+
  protected:
   // The fields of the base object cell.
   /*! \brief Type index(tag) that indicates the type of the object. */
@@ -596,6 +601,12 @@ class ObjectRef {
   // Default type properties for the reference class.
   static constexpr bool _type_is_nullable = true;
 
+  std::string to_json() const;
+  std::string x() const;
+  std::string xx() const;
+  std::string z() const;
+  std::string zz() const;
+
  protected:
   /*! \brief Internal pointer that backs the reference. */
   ObjectPtr<Object> data_;
@@ -741,8 +752,8 @@ struct ObjectPtrEqual {
   TypeName() = default;                                                                        \
   explicit TypeName(::tvm::runtime::ObjectPtr<::tvm::runtime::Object> n) : ParentType(n) {}    \
   TVM_DEFINE_DEFAULT_COPY_MOVE_AND_ASSIGN(TypeName);                                           \
-  const ObjectName* operator->() const { return static_cast<const ObjectName*>(data_.get()); } \
-  const ObjectName* get() const { return operator->(); }                                       \
+  inline const ObjectName* operator->() const { return static_cast<const ObjectName*>(data_.get()); } \
+  inline const ObjectName* get() const { return operator->(); }                                       \
   using ContainerType = ObjectName;
 
 /*
@@ -929,5 +940,10 @@ inline SubRef Downcast(BaseRef ref) {
 
 }  // namespace runtime
 }  // namespace tvm
+
+std::string x(long obj_ptr);
+std::string xx(long obj_ptr);
+std::string z(long obj_ptr);
+std::string zz(long obj_ptr);
 
 #endif  // TVM_RUNTIME_OBJECT_H_

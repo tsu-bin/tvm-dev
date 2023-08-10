@@ -1,6 +1,6 @@
 [submodule "dmlc-core"]
 	path = 3rdparty/dmlc-core
-	url = https://github.com/dmlc/dmlc-core.git
+	url = git@github.com:tsu-bin/dmlc-core.git
 [submodule "dlpack"]
 	path = 3rdparty/dlpack
 	url = https://github.com/dmlc/dlpack.git
