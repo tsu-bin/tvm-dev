@@ -40,13 +40,20 @@
 # Backend runtimes.
 #---------------------------------------------
 
+# Debug sets -O0 -g
+# RelWithDebInfo sets -O2 -g -DNDEBUG (recommended)
+# Release sets -O3 -DNDEBUG
+SET(CMAKE_BUILD_TYPE "Debug")
+
+set(HIDE_PRIVATE_SYMBOLS ON)
+
 # Whether enable CUDA during compile,
 #
 # Possible values:
 # - ON: enable CUDA with cmake's auto search
 # - OFF: disable CUDA
 # - /path/to/cuda: use specific path to cuda toolkit
-set(USE_CUDA OFF)
+set(USE_CUDA ON)
 
 # Whether enable ROCM runtime
 #
@@ -123,7 +130,7 @@ set(USE_STACKVM_RUNTIME OFF)
 set(USE_GRAPH_EXECUTOR ON)
 
 # Whether enable tiny graph executor with CUDA Graph
-set(USE_GRAPH_EXECUTOR_CUDA_GRAPH OFF)
+set(USE_GRAPH_EXECUTOR_CUDA_GRAPH ON)
 
 # Whether enable pipeline executor.
 set(USE_PIPELINE_EXECUTOR OFF)
@@ -142,7 +149,7 @@ set(USE_MICRO_STANDALONE_RUNTIME OFF)
 # - OFF: disable llvm, note this will disable CPU codegen
 #        which is needed for most cases
 # - /path/to/llvm-config: enable specific LLVM when multiple llvm-dev is available.
-set(USE_LLVM OFF)
+set(USE_LLVM "/usr/lib/llvm-15/bin/llvm-config")
 
 #---------------------------------------------
 # Contrib libraries
@@ -294,7 +301,7 @@ set(USE_CLML_GRAPH_EXECUTOR OFF)
 set(USE_ANTLR OFF)
 
 # Whether use Relay debug mode
-set(USE_RELAY_DEBUG OFF)
+set(USE_RELAY_DEBUG ON)
 
 # Whether to build fast VTA simulator driver
 set(USE_VTA_FSIM OFF)
@@ -403,7 +410,7 @@ set(USE_GTEST AUTO)
 
 # Enable using CUTLASS as a BYOC backend
 # Need to have USE_CUDA=ON
-set(USE_CUTLASS OFF)
+set(USE_CUTLASS ON)
 
 # Enable to show a summary of TVM options
 set(SUMMARIZE OFF)
