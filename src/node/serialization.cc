@@ -165,6 +165,7 @@ using AttrMap = std::map<std::string, std::string>;
 
 /*! \brief Node structure for json format. */
 struct JSONNode {
+  int idx; // xubin added
   /*! \brief The type of key of the object. */
   std::string type_key;
   /*! \brief The str repr representation. */
@@ -183,6 +184,7 @@ struct JSONNode {
 
   void Save(dmlc::JSONWriter* writer) const {
     writer->BeginObject();
+    writer->WriteObjectKeyValue("idx", idx); // xubin added
     writer->WriteObjectKeyValue("type_key", type_key);
     if (repr_bytes.size() != 0) {
       // choose to use str representation or base64, based on whether
@@ -213,6 +215,7 @@ struct JSONNode {
     type_key.clear();
     std::string repr_b64, repr_str;
     dmlc::JSONObjectReadHelper helper;
+    helper.DeclareOptionalField("idx", &idx); // xubin: idx is no use to load, only avoid load failure
     helper.DeclareOptionalField("type_key", &type_key);
     helper.DeclareOptionalField("repr_b64", &repr_b64);
     helper.DeclareOptionalField("repr_str", &repr_str);
@@ -509,6 +512,7 @@ struct JSONGraph {
     getter.tensor_index_ = &indexer.tensor_index_;
     for (Object* n : indexer.node_list_) {
       JSONNode jnode;
+      jnode.idx = indexer.node_index_[n];
       getter.node_ = &jnode;
       getter.Get(n);
       g.nodes.emplace_back(std::move(jnode));
@@ -569,6 +573,10 @@ std::string SaveJSON(const ObjectRef& n) {
   dmlc::JSONWriter writer(&os);
   jgraph.Save(&writer);
   return os.str();
+}
+
+std::string ObjectRef::to_json() const {
+  return SaveJSON(*this);
 }
 
 ObjectRef LoadJSON(std::string json_str) {
