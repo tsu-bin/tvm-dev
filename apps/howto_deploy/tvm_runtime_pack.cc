@@ -81,8 +81,9 @@
 // #include "../../src/runtime/metal/metal_module.mm"
 
 // Uncomment the following lines to enable CUDA
-// #include "../../src/runtime/cuda/cuda_device_api.cc"
-// #include "../../src/runtime/cuda/cuda_module.cc"
+#include "../../src/runtime/cuda/cuda_device_api.cc"
+#include "../../src/runtime/cuda/cuda_module.cc"
+#include "../../src/runtime/graph_executor/cuda_graph/graph_runtime_cuda_graph.cc"
 
 // Uncomment the following lines to enable OpenCL
 // #include "../../src/runtime/opencl/opencl_device_api.cc"
