@@ -833,3 +833,15 @@ if(USE_CUDA AND USE_CUTLASS)
   target_link_libraries(tvm PRIVATE fpA_intB_gemm)
   target_link_libraries(tvm_runtime PRIVATE fpA_intB_gemm)
 endif()
+
+if(USE_CUDA AND USE_NCCL)
+  target_link_libraries(tvm PRIVATE nccl)
+  target_link_libraries(tvm_runtime PRIVATE nccl)
+endif()
+
+if(USE_ROCM AND USE_RCCL)
+  target_link_libraries(tvm PRIVATE rccl)
+  target_link_libraries(tvm_runtime PRIVATE rccl)
+endif()
+
+add_subdirectory("apps/howto_deploy")
