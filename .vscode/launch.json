@@ -1,0 +1,40 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "inputs": [
+        {
+            "id": "XXX",
+            "type": "command",
+            "command": "shellCommand.execute", // need to install 'Tasks Shell Input' extension to make this work
+                "args": {
+                "command": "cat ./xb_demo/pid.txt",
+                "useFirstResult": "true",
+            }
+        }
+    ], // https://stackoverflow.com/questions/61628804/how-set-a-variable-coming-from-reading-a-text-file-and-use-it-in-launch-json-in
+    "configurations": [
+        {
+            "name": "LLDB_attach",
+            "type": "lldb",
+            "request": "attach",
+            //"pid": "${command:pickMyProcess}", // use "${command:pickMyProcess}" to pick other users' processes
+            "pid": "${input:XXX}", // use "${command:pickMyProcess}" to pick other users' processes
+            "initCommands": [
+                "setting set escape-non-printables false",
+                "setting set target.max-string-summary-length 90000",
+            ],
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
+
+

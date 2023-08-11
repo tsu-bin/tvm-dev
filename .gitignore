@@ -209,7 +209,7 @@ cmake-build-debug
 .vs
 
 # Visual Studio Code
-.vscode
+#.vscode
 
 # tmp file
 .nfs*
