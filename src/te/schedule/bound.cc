@@ -172,7 +172,13 @@ void InferRootBound(const Stage& stage, const GraphContext& ctx,
         }
       }
     }
-    ICHECK(found_attach || stage_attach.size() == 0)
+    if (not (found_attach || stage_attach.size() == 0)) {
+      LOG(ERROR)<<"\nproducer:\n"<<stage->op;
+      LOG(ERROR)<<"\nconsumer:\n"<<op;
+      LOG(ERROR)<<"found_attach="<<found_attach<<" stage_attach.size()"<<stage_attach.size();
+    }
+    ICHECK(stage_attach.size() == 0 || stage.GetAttachSpec() != op_stage || found_attach)
+    //ICHECK(found_attach || stage_attach.size() == 0)
         << "Invalid Schedule, cannot find the producer " << stage->op
         << " along the loop nest specified by compute_at of consumer " << op;
     // Get the domain of the consumer

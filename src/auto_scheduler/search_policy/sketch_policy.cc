@@ -492,6 +492,9 @@ Array<State> SketchPolicyNode::EvolutionarySearch(const Array<State>& init_popul
   size_t population = GetIntParam(params, SketchParamKey::EvolutionarySearch::population);
   double mutation_prob = GetDoubleParam(params, SketchParamKey::EvolutionarySearch::mutation_prob);
   int num_iters = GetIntParam(params, SketchParamKey::EvolutionarySearch::num_iters);
+  
+  StdCout(verbose)<<"Params: init_population.size()="<<init_population.size()<<"  out_size="<<out_size<<\
+    "  population="<<population<<"  mutation_prob="<<mutation_prob<<" num_iters="<<num_iters<<std::endl;
 
   bool is_cost_model_reasonable = !program_cost_model->IsInstance<RandomModelNode>();
   if (!is_cost_model_reasonable && num_iters > 2) {
@@ -512,7 +515,7 @@ Array<State> SketchPolicyNode::EvolutionarySearch(const Array<State>& init_popul
   auto cmp = [](const StateHeapItem& left, const StateHeapItem& right) {
     return left.second > right.second;
   };
-  std::vector<StateHeapItem> heap;
+  std::vector<StateHeapItem> heap; //小根堆
   std::unordered_set<std::string> in_heap(measured_states_set_);
   heap.reserve(out_size);
 
@@ -537,8 +540,12 @@ Array<State> SketchPolicyNode::EvolutionarySearch(const Array<State>& init_popul
   // Genetic Algorithm
   for (int k = 0; k < num_iters + 1; ++k) {
     // Maintain the heap
+    StdCout(verbose) << "GA Iter start: " << k <<"\n";
+    StdCout(verbose)<<"Before InferBound pnow->size()="<<pnow->size()<< std::endl;
     *pnow = search_task->compute_dag.InferBound(*pnow);
+    StdCout(verbose)<<"After InferBound pnow->size()="<<pnow->size()<< std::endl;
     PruneInvalidState(search_task, pnow);
+    StdCout(verbose)<<"After PruneInvalidState pnow->size()="<<pnow->size()<< std::endl;
     program_cost_model->Predict(search_task, *pnow, &pop_scores);
 
     for (size_t i = 0; i < pnow->size(); ++i) {
@@ -567,7 +574,7 @@ Array<State> SketchPolicyNode::EvolutionarySearch(const Array<State>& init_popul
 
     // Print statistical information
     if (k % 5 == 0 || k == num_iters) {
-      StdCout(verbose) << "GA Iter: " << k;
+      StdCout(verbose) << "GA Iter statistics: " << k<<"\n";
       if (!heap.empty()) {
         StdCout(verbose) << std::fixed << std::setprecision(4) << "\tMax score: " << max_score
                          << std::fixed << std::setprecision(4)

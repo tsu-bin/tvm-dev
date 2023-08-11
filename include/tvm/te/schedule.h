@@ -654,10 +654,10 @@ class ScheduleNode : public Object {
   Optional<Bool> keep_schedule_record;
 
   void VisitAttrs(AttrVisitor* v) {
-    v->Visit("outputs", &outputs);
     v->Visit("stages", &stages);
     v->Visit("groups", &groups);
     v->Visit("stage_map", &stage_map);
+    v->Visit("outputs", &outputs);
     v->Visit("schedule_record", &schedule_record);
     v->Visit("primitive_record", &primitive_record);
     v->Visit("keep_schedule_record", &keep_schedule_record);
