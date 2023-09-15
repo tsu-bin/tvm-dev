@@ -462,7 +462,7 @@ class RelayBuildModule : public runtime::ModuleNode {
     }
 
     auto ext_mods = executor_codegen_->GetExternalModules();
-    ret_.mod = tvm::codegen::CreateMetadataModule(ret_.params, ret_.mod, ext_mods, host_target,
+    ret_.mod = tvm::codegen::CreateMetadataModule({}, ret_.mod, ext_mods, host_target,
                                                   runtime_, executor_,
                                                   executor_codegen_->GetExecutorCodegenMetadata());
     // Remove external params which were stored in metadata module.
