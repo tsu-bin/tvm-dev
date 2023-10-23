@@ -148,7 +148,7 @@ def _worker_func(
             rt_mod = tvm.runtime.load_module(artifact_path)
         # Step 2: Allocate input arguments
         with Profiler.timeit("LocalRunner/alloc_argument"):
-            device = tvm.runtime.device(dev_type=device_type, dev_id=0)
+            device = tvm.runtime.device(dev_type=device_type, dev_id=evaluator_config.dev_id)
             repeated_args: List[T_ARGUMENT_LIST] = f_alloc_argument(
                 device,
                 args_info,
