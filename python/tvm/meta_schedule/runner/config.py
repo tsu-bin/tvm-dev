@@ -52,6 +52,7 @@ class EvaluatorConfig(NamedTuple):
     repeat: int = 1
     min_repeat_ms: int = 100
     enable_cpu_cache_flush: bool = False
+    dev_id: int = 0
 
     @staticmethod
     def _normalized(config: Optional["EvaluatorConfig"]) -> "EvaluatorConfig":
@@ -62,6 +63,7 @@ class EvaluatorConfig(NamedTuple):
             repeat=config.repeat,
             min_repeat_ms=config.min_repeat_ms,
             enable_cpu_cache_flush=config.enable_cpu_cache_flush,
+            dev_id=config.dev_id,
         )
         return config
 
