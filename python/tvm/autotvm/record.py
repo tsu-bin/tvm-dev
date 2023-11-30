@@ -124,7 +124,7 @@ def encode(inp, result, protocol="json"):
     raise RuntimeError("Invalid log protocol: " + protocol)
 
 
-def decode(row, protocol="json"):
+def decode(row, protocol="json", target_to_overwrite=None):
     """Decode encoded record string to python object
 
     Parameters
@@ -152,11 +152,15 @@ def decode(row, protocol="json"):
             return None
 
         tgt, task_name, task_args, task_kwargs = row["input"]
-        tgt = str(tgt)
-        if "-target" in tgt:
-            logger.warning('"-target" is deprecated, use "-mtriple" instead.')
-            tgt = tgt.replace("-target", "-mtriple")
-        tgt = Target(str(tgt))
+        # target_to_overwrite = None
+        if target_to_overwrite is not None:
+            tgt = target_to_overwrite
+        else:
+            tgt = str(tgt)
+            if "-target" in tgt:
+                logger.warning('"-target" is deprecated, use "-mtriple" instead.')
+                tgt = tgt.replace("-target", "-mtriple")
+            tgt = Target(str(tgt))
 
         def clean_json_to_python(x):
             """1. Convert all list in x to tuple (hashable)
@@ -217,7 +221,7 @@ def load_from_buffer(file: TextIOBase):
             yield ret
 
 
-def load_from_file(filepath: Union[str, bytes, os.PathLike]):
+def load_from_file(filepath: Union[str, bytes, os.PathLike], target_to_overwrite=None):
     """Generator: load records from path.
     This is a generator that yields the records.
 
@@ -233,7 +237,7 @@ def load_from_file(filepath: Union[str, bytes, os.PathLike]):
     with open(filepath) as f:
         for row in f:
             if row and not row.startswith("#"):
-                ret = decode(row)
+                ret = decode(row, target_to_overwrite=target_to_overwrite)
                 if ret is None:
                     continue
                 yield ret

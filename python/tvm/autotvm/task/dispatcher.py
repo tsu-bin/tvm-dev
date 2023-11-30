@@ -262,7 +262,7 @@ class ApplyHistoryBest(DispatchContext):
         if records:
             self.load(records)
 
-    def load(self, records: Union[Records, Iterable[Records]]):
+    def load(self, records: Union[Records, Iterable[Records]], target_to_overwrite = None):
         """Load records to this dispatch context
 
         Parameters
@@ -281,7 +281,7 @@ class ApplyHistoryBest(DispatchContext):
         ) -> List[Tuple[MeasureInput, MeasureResult]]:
 
             if isinstance(records, (str, bytes, PathLike)):
-                return load_from_file(records)
+                return load_from_file(records, target_to_overwrite=target_to_overwrite)
 
             if isinstance(records, TextIOBase):
                 return load_from_buffer(records)
