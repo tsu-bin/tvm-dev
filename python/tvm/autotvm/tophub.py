@@ -130,7 +130,7 @@ def context(target, extra_files=None):
                     continue
 
                 filename = f"{name}_{PACKAGE_VERSION[name]}.log"
-                best_context.load(Path(AUTOTVM_TOPHUB_ROOT_PATH, filename))
+                best_context.load(Path(AUTOTVM_TOPHUB_ROOT_PATH, filename), target_to_overwrite=tgt)
                 break  # only load one file to avoid some fallback template mismatch problem
 
     if extra_files:
