@@ -130,5 +130,9 @@ class Object(ObjectBase):
         """
         return ObjectRValueRef(self)
 
+    def x(self):
+        _ffi_api.Object_X(self)
+    def z(self):
+        _ffi_api.Object_Z(self)
 
 _set_class_object(Object)
