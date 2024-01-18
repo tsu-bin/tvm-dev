@@ -144,13 +144,23 @@ public:
         return;
     }
 
-    if (std::string repr_bytes; reflection_->GetReprBytes(node, &repr_bytes) && repr_bytes.empty()) {
+    std::string repr_bytes;
+    if (reflection_->GetReprBytes(node, &repr_bytes) && repr_bytes.empty()) {
+      return;
+    }
+
+    if (node->GetTypeKey() == "runtime.String") {
+      writer_.WriteObjectKeyValue(std::string(key)+" str", repr_bytes);
       return;
     }
 
     writer_.WriteObjectKey(std::string(key));
     MyVisit(node, key);
   }
+
+  // void Visit(const char* key, runtime::String* value) final {
+  //   writer_.WriteObjectKeyValue(std::string(key)+" str", std::string(value->c_str()));
+  // }
   
   void MyVisit(Object* node, const char* parent_key = nullptr) {
     if (node == nullptr) {
@@ -276,6 +286,14 @@ std::string ObjectRef::zz() const {
 std::string ObjectRef::z() const {
   return this->get()->z();
 }
+
+
+TVM_REGISTER_GLOBAL("runtime.Object_X").set_body_typed([](ObjectRef obj) {
+  obj.x();
+});
+TVM_REGISTER_GLOBAL("runtime.Object_Z").set_body_typed([](ObjectRef obj) {
+  obj.z();
+});
 
 }  // namespace tvm
 
