@@ -45,7 +45,7 @@
 # Release sets -O3 -DNDEBUG
 SET(CMAKE_BUILD_TYPE "Debug")
 
-set(HIDE_PRIVATE_SYMBOLS ON)
+set(HIDE_PRIVATE_SYMBOLS OFF) # xubin mod, set to OFF to avoid produce tvm_allvisible.so to speed up ninja compiling
 
 # Whether enable CUDA during compile,
 #
@@ -172,7 +172,7 @@ set(USE_MICRO_STANDALONE_RUNTIME OFF)
 #        which is needed for most cases
 # - /path/to/llvm-config: enable specific LLVM when multiple llvm-dev is available.
 set(USE_LLVM "/usr/lib/llvm-15/bin/llvm-config")
-
+# set(USE_LLVM "/usr/lib/llvm-15/bin/llvm-config --link-static") # xubin mod, we can use --link-static to let libtvm.so be a self-containing lib
 # Whether use MLIR to help analyze, requires USE_LLVM is enabled
 # Possible values: ON/OFF
 set(USE_MLIR OFF)
