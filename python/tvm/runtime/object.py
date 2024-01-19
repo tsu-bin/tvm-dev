@@ -134,5 +134,6 @@ class Object(ObjectBase):
         _ffi_api.Object_X(self)
     def z(self):
         _ffi_api.Object_Z(self)
+        print("Obj is plotted.")
 
 _set_class_object(Object)
