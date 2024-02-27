@@ -35,6 +35,7 @@
 #include "../../runtime/cuda/cuda_module.h"
 #include "../build_common.h"
 #include "../source/codegen_cuda.h"
+#include <tvm/tir/stmt_functor.h>
 
 namespace tvm {
 namespace codegen {
@@ -138,6 +139,7 @@ runtime::Module BuildCUDA(IRModule mod, Target target) {
     ICHECK(calling_conv == CallingConv::kDeviceKernelLaunch)
         << "CodeGenCUDA: expect calling_conv equals CallingConv::kDeviceKernelLaunch";
     cg.AddFunction(f);
+    cg.AddLaunchParamsDescription(kv.first, f);
   }
 
   std::string code = cg.Finish();

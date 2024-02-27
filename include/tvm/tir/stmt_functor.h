@@ -570,6 +570,8 @@ bool ContainsNode(const Stmt& stmt) {
   return visitor.contains_node;
 }
 
+TVM_DLL std::string LaunchParamsDescription(const GlobalVar& gvar, const PrimFunc& func);
+
 }  // namespace tir
 }  // namespace tvm
 
