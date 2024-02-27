@@ -35,6 +35,7 @@
 #include "../../runtime/cuda/cuda_module.h"
 #include "../build_common.h"
 #include "../source/codegen_cuda.h"
+#include <tvm/tir/stmt_functor.h>
 
 namespace tvm {
 namespace codegen {
@@ -146,6 +147,7 @@ runtime::Module BuildCUDA(IRModule mod, Target target) {
   }
   for (auto [gvar, prim_func] : functions) {
     cg.AddFunction(gvar, prim_func);
+    cg.AddLaunchParamsDescription(gvar, prim_func);
   }
 
   std::string code = cg.Finish();

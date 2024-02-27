@@ -317,6 +317,15 @@ class DeviceKernelMutator : public StmtExprMutator {
   std::unordered_set<const GlobalVarNode*> extern_function_call_;
 };
 
+std::string LaunchParamsDescription(const GlobalVar& gvar, const PrimFunc& func) {
+  std::string ret = "// launching params for '" + gvar->name_hint + "'\n";
+  KernelInfo kernel_info = DeviceInfoCollector::Collect(gvar, func);
+  for(int i=0; i<kernel_info.launch_params.size(); ++i) {
+    ret += "// "+kernel_info.launch_params[i]+" = "+std::to_string(Downcast<IntImm>(kernel_info.launch_args[i])->value)+"\n";
+  }
+  return ret;
+}
+
 namespace transform {
 
 Pass LowerDeviceKernelLaunch() {

@@ -117,6 +117,10 @@ void CodeGenCUDA::PrintExtraAttrs(const PrimFunc& f, std::ostream& os) {
   }
 }
 
+void CodeGenCUDA::AddLaunchParamsDescription(const GlobalVar& gvar, const PrimFunc& f) {
+  this->stream << LaunchParamsDescription(gvar, f);
+}
+
 std::string CodeGenCUDA::Finish() {
   if (enable_fp16_) {
     decl_stream << "#if defined(__CUDA_ARCH__) && (__CUDA_ARCH__ >= 530)\n";

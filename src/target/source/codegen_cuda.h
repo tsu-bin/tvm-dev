@@ -40,6 +40,7 @@ class CodeGenCUDA final : public CodeGenC {
  public:
   CodeGenCUDA();
   void Init(bool output_ssa);
+  void AddLaunchParamsDescription(const GlobalVar& gvar, const PrimFunc& f);
   std::string Finish();
   bool need_include_path() {
     return (enable_fp16_ || enable_bf16_ || enable_int8_ || enable_fp8_ || need_math_constants_h_ ||
