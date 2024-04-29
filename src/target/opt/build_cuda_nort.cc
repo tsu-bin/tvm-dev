@@ -40,12 +40,12 @@ class CUDAModuleNode : public runtime::ModuleNode {
 
   const char* type_key() const final { return "cuda"; }
 
-  PackedFunc GetFunction(const std::string& name, const ObjectPtr<Object>& sptr_to_self) final {
+  PackedFunc GetFunction(const String& name, const ObjectPtr<Object>& sptr_to_self) final {
       ICHECK(0) << "Not implemented when cuda is not enabled in TVM.";
       return PackedFunc();
   }
 
-  std::string GetSource(const std::string& format) final {
+  String GetSource(const String& format) final {
     if (format == fmt_) return data_;
     if (cuda_source_.length() != 0) {
       return cuda_source_;
