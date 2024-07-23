@@ -59,7 +59,7 @@ set(USE_CUDA ON)
 # - ON: enable NCCL with cmake's auto search
 # - OFF: disable NCCL
 # - /path/to/nccl: use specific path to nccl
-set(USE_NCCL OFF)
+set(USE_NCCL ON)
 
 # Whether to enable MSCCL support:
 # - ON: enable MSCCL
@@ -452,7 +452,7 @@ set(USE_GTEST AUTO)
 set(USE_CUTLASS ON)
 
 # Whether to enable FlashInfer or not.
-set(USE_FLASHINFER OFF)
+set(USE_FLASHINFER ON)
 # Options for FlashInfer kernel compilation.
 set(FLASHINFER_ENABLE_FP8 OFF)
 set(FLASHINFER_ENABLE_BF16 OFF)
